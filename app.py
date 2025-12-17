@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 import os
 
-st.set_page_config(page_title = "Movie Recommendation")
+st.set_page_config(page_title = "Movie Recommendation System")
 
 def main():
     st.title("Movie Recommendations")
