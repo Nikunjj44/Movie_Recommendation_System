@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 import pickle
-import os
+from config import *
+from generate_viz import get_poster_url, get_movie_summary
 
 st.set_page_config(page_title = "Movie Recommendation System")
 
@@ -15,7 +16,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-
+# functions to load req. data + perform req. pre-processing
 @st.cache_data
 def load_data():
     try:
@@ -41,39 +42,68 @@ def sort_movie_list(movie_list):
     
     return result + num_movie
 
+# Func. to get recommendations and respective scores
 def make_recommendation(movie_title, df, similarity_scores, n = 10):
     
-    # making sure we have ordered index
-    df = df.reset_index()
-    
-    # finding the index of the movie
     try:
-        index = df[df["title"] == movie_title].index[0]
+        # making sure we have ordered index
+        df = df.reset_index()
+        
+        # finding the index of the movie
+        try:
+            index = df[df["title"] == movie_title].index[0]
+        except Exception as e:
+            print(f"Incorrect movie name! Movie {movie_title} not present in dataset.")
+            return None
+
+        # extracting the similarity score with the above extracted index (for the ip movie)
+        # creating a sorted list of scores
+        
+        scores = list(enumerate(similarity_scores[index]))
+
+        # here key argument referes to which value of the enumerated key do you want to sort on
+        scores = sorted(scores, reverse = True, key = lambda x: x[1])
+
+        # extracting top n+1 values
+        # +1 because it will include the movie itself
+        scores = scores[:n+1]
+
+        titles = []
+        rec_score = []
+        for i in scores:
+            if df["title"][i[0]] != movie_title:
+                titles.append(df['title'][i[0]])
+                rec_score.append(i[1])
+        
+        return {"movies" : titles, "scores" : rec_score}
+
+    except:
+        st.error("Failed to make recommendatios")
+
+# Output Visualsization functions
+def extract_movie_img(movie_title):
+    pass
+
+
+def display_recommendations(df):
+    try:
+        st.subheader("You may like these movies 🤔")
+
+        for i in st.session_state["rec_movies"]:
+            img_url = get_poster_url(i)
+            overview = get_movie_summary(i, df)
+
+            poster, details = st.columns([2, 4])
+
+            with poster:
+                st.image(img_url, width = 300)
+            
+            with details:
+                st.markdown(f"#### {i}")
+                st.text_area(value = overview, label = "", height = 150)
+
     except Exception as e:
-        print(f"Incorrect movie name! Movie {movie_title} not present in dataset.")
-        return None
-
-    # extracting the similarity score with the above extracted index (for the ip movie)
-    # creating a sorted list of scores
-    
-    scores = list(enumerate(similarity_scores[index]))
-
-    # here key argument referes to which value of the enumerated key do you want to sort on
-    scores = sorted(scores, reverse = True, key = lambda x: x[1])
-
-    print("Movie Recommendations:")
-    print("--"*40)
-
-    # extracting top n+1 values
-    # +1 because it will include the movie itself
-    scores = scores[:n+1]
-    num = 1
-    for i in scores:
-        if df["title"][i[0]] != movie_title:
-            print(f"Recommendation {num}: {df['title'][i[0]]}")
-            print(f"Similarity Score : {round(i[1], 2)}")
-            num += 1
-    
+        print(e)
 
 def main():
     st.title("Movie Recommendation System")
@@ -81,6 +111,7 @@ def main():
 
     with st.spinner("Loading movies data ..."):
         df, similarity = load_data()
+        df_movies = pd.read_csv(MOVIE_DATA_PATH)
         movie_list = sort_movie_list(df["title"].to_list())
 
     ddn, slider = st.columns([4, 2])
@@ -102,8 +133,22 @@ def main():
         )
 
     if st.button("Generate Recommendations"):
-        print(selected_title)
-        print(selected_num_rec)
+        try:
+            recommendations = make_recommendation(
+                movie_title = selected_title,
+                df = df,
+                similarity_scores = similarity,
+                n = selected_num_rec
+            )
+            
+            st.session_state["rec_movies"] = recommendations["movies"]
+            st.session_state["rec_Scores"] = recommendations["scores"]
+
+            display_recommendations(df_movies)
+
+        except Exception as e:
+            st.error(e)
+
 
 
 if __name__ == "__main__":
