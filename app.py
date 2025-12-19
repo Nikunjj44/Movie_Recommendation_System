@@ -89,7 +89,6 @@ st.markdown("""
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        margin-top: -50px;
     }
     .pill-button {
         display: inline-block;
@@ -111,13 +110,13 @@ st.markdown("""
     """, unsafe_allow_html=True
 )
 
-st.markdown("""
-    <style>
-    .stTextArea {
-        margin-top: -40px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+# st.markdown("""
+#     <style>
+#     .stTextArea {
+#         margin-top: -10px;
+#     }
+#     </style>
+#     """, unsafe_allow_html=True)
 
 
 def display_recommendations(df):
@@ -136,7 +135,7 @@ def display_recommendations(df):
             
             with details:
                 st.markdown(f"#### {i}")
-                st.text_area(value = overview, label = "", height = 176)
+                st.text_area(value = overview, label = "Overview", height = 100, label_visibility="collapsed")
 
                 # displaying genres
                 pills_html = '<div class="pill-container">'
