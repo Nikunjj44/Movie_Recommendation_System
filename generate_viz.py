@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import json
 from config import REQ_URL, CONFIG_KEY, IMAGE_URL, MOVIE_DATA_PATH
 
 def get_poster_url(movie_title):
@@ -31,6 +32,12 @@ def get_movie_summary(movie_title, df):
     return summary
 
 def get_genre_list(movie_title, df):
-    pass
+    
+    genre_val = df[df["title"] == movie_title].reset_index()["genres"][0]
 
-    df = pd.read()
+    result = []
+    list = json.loads(genre_val)
+    for i in list:
+        result.append(i["name"])
+
+    return result

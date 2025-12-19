@@ -1,8 +1,11 @@
 import streamlit as st
 import pandas as pd
 import pickle
+import warnings
 from config import *
-from generate_viz import get_poster_url, get_movie_summary
+from generate_viz import get_poster_url, get_movie_summary, get_genre_list
+
+warnings.filterwarnings("ignore")
 
 st.set_page_config(page_title = "Movie Recommendation System")
 
@@ -80,9 +83,41 @@ def make_recommendation(movie_title, df, similarity_scores, n = 10):
     except:
         st.error("Failed to make recommendatios")
 
-# Output Visualsization functions
-def extract_movie_img(movie_title):
-    pass
+st.markdown("""
+    <style>
+    .pill-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: -50px;
+    }
+    .pill-button {
+        display: inline-block;
+        padding: 4px 12px;
+        border: 1px solid #ccc;
+        border-radius: 25px;
+        background-color: white;
+        color: #333;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .pill-button:hover {
+        background-color: #f0f0f0;
+        border-color: #999;
+    }
+    </style>
+    """, unsafe_allow_html=True
+)
+
+st.markdown("""
+    <style>
+    .stTextArea {
+        margin-top: -40px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 
 def display_recommendations(df):
@@ -92,6 +127,7 @@ def display_recommendations(df):
         for i in st.session_state["rec_movies"]:
             img_url = get_poster_url(i)
             overview = get_movie_summary(i, df)
+            genres = get_genre_list(i, df)
 
             poster, details = st.columns([2, 4])
 
@@ -100,7 +136,17 @@ def display_recommendations(df):
             
             with details:
                 st.markdown(f"#### {i}")
-                st.text_area(value = overview, label = "", height = 150)
+                st.text_area(value = overview, label = "", height = 176)
+
+                # displaying genres
+                pills_html = '<div class="pill-container">'
+                for category in sorted(genres):
+                    pills_html += f'<span class="pill-button">{category}</span>'
+                pills_html += '</div>'
+
+                st.markdown(pills_html, unsafe_allow_html=True)
+
+
 
     except Exception as e:
         print(e)
