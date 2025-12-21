@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 import warnings
 from config import *
-from generate_viz import get_poster_url, get_movie_summary, get_genre_list
+from generate_viz import get_poster_url, get_movie_summary, get_genre_list, get_cast_data_w_img
 
 warnings.filterwarnings("ignore")
 
@@ -117,24 +117,46 @@ st.markdown("""
 #     }
 #     </style>
 #     """, unsafe_allow_html=True)
+def get_display_data(df):
+    poster = []
+    summary = []
+    genres = []
+    cast_data = []
+    movies = []
+
+    for i in st.session_state["rec_movies"]:
+        poster.append(get_poster_url(i))
+        summary.append(get_movie_summary(i, df))
+        genres.append(get_genre_list(i, df))
+        cast_data.append(get_cast_data_w_img(i))
+        movies.append(i)
+    
+    return {
+        "posters" : poster,
+        "overview" : summary,
+        "genres" : genres,
+        "casts" : cast_data,
+        "movie_name" : movies
+    }
 
 
-def display_recommendations(df):
+def display_recommendations(disp_data):
     try:
         st.subheader("You may like these movies 🤔")
 
-        for i in st.session_state["rec_movies"]:
-            img_url = get_poster_url(i)
-            overview = get_movie_summary(i, df)
-            genres = get_genre_list(i, df)
-
+        for i in range(len(disp_data["movie_name"])):
             poster, details = st.columns([2, 4])
+            
+            img_url = disp_data["posters"][i]
+            overview = disp_data["overview"][i]
+            genres = disp_data["genres"][i]
+            movie_name = disp_data["movie_name"][i]
 
             with poster:
                 st.image(img_url, width = 300)
             
             with details:
-                st.markdown(f"#### {i}")
+                st.markdown(f"#### {movie_name}")
                 st.text_area(value = overview, label = "Overview", height = 100, label_visibility="collapsed")
 
                 # displaying genres
@@ -145,12 +167,16 @@ def display_recommendations(df):
 
                 st.markdown(pills_html, unsafe_allow_html=True)
 
-
+                # print(cast_data)
 
     except Exception as e:
         print(e)
 
 def main():
+    # Intitalization
+    st.session_state["display_data"] = False
+
+    # UI for inputs
     st.title("Movie Recommendation System")
     st.subheader("Find your next movie to bingewatch 😁")
 
@@ -188,8 +214,13 @@ def main():
             
             st.session_state["rec_movies"] = recommendations["movies"]
             st.session_state["rec_Scores"] = recommendations["scores"]
+            
+            with st.spinner("Loading Recommendations ..."):
+                display_data = get_display_data(df_movies)
+                st.session_state["display_data"] = True
 
-            display_recommendations(df_movies)
+            if st.session_state["display_data"]:
+                display_recommendations(display_data)
 
         except Exception as e:
             st.error(e)

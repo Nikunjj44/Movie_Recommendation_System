@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 import json
-from config import REQ_URL, CONFIG_KEY, IMAGE_URL, MOVIE_DATA_PATH
+from config import REQ_URL, CONFIG_KEY, IMAGE_URL, MOVIE_DATA_PATH, BASE_URL
 
 def get_poster_url(movie_title):
 
@@ -41,3 +41,61 @@ def get_genre_list(movie_title, df):
         result.append(i["name"])
 
     return result
+
+def get_cast_data_w_img(movie_title):
+    params = {
+        "api_key": CONFIG_KEY,
+        "query": movie_title,
+        "language": "en-US"
+    }
+
+    response = requests.get(REQ_URL, params=params, timeout=5)
+
+    # progress only if successful api req
+    if response.status_code == 200:
+        data = response.json()
+        if data["results"]:
+            movie_id = data["results"][0]["id"]
+            url = f"{BASE_URL}/movie/{movie_id}/credits"
+
+            params = {"api_key":CONFIG_KEY}
+            response = requests.get(url, params=params, timeout=5)
+            if response.status_code == 200:
+                config_data = response.json()["cast"]
+                n = len(config_data)
+                if n > 10:
+                    n = 10
+                actor_name = []
+                char_name = []
+                cast_img = []
+                for i in range(n):
+                    if config_data[i]["name"]:
+                        actor_name.append(config_data[i]["name"])
+                    else:
+                        pass
+
+                    if config_data[i]["character"]:
+                        char_name.append(config_data[i]["character"])
+                    else:
+                        pass
+                    if config_data[i]["profile_path"]:
+                        profile_path = config_data[i]["profile_path"]
+                        cast_img.append(f"{IMAGE_URL}{profile_path}")
+                    else:
+                        cast_img.append("NA")
+                
+                cast_info = {
+                    "actors" : actor_name,
+                    "characters" : char_name,
+                    "cast_img_links" : cast_img,
+                    "total_cast_members" : n
+                }
+
+                return cast_info
+                            
+            else:
+                print("Error extracting cast details from api")
+                return None
+    else:
+        print("Error extracting cast details from api")
+        return None
