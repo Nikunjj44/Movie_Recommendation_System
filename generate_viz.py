@@ -77,7 +77,7 @@ def get_cast_data_w_img(movie_title):
                     if config_data[i]["character"]:
                         char_name.append(config_data[i]["character"])
                     else:
-                        pass
+                        char_name.append("")
                     if config_data[i]["profile_path"]:
                         profile_path = config_data[i]["profile_path"]
                         cast_img.append(f"{IMAGE_URL}{profile_path}")

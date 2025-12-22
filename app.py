@@ -202,12 +202,10 @@ def display_cast(cast_data):
     
     cast_html = '<div class="cast-scroll-container">'
 
-    for i in range(cast_data["total_cast_members"]):
+    for i in range(len(cast_data["actors"])):
         name = cast_data["actors"][i]
         character = cast_data["characters"][i]
         img_url = cast_data["cast_img_links"][i]
-
-        print(name)
         
         if img_url == "NA":
             img_url = "https://via.placeholder.com/100x100/667eea/ffffff?text=No+Image"
@@ -246,27 +244,24 @@ def display_recommendations(disp_data):
 
                 st.markdown(pills_html, unsafe_allow_html=True)
 
-                print(movie_name)
-                print("--"*50)
                 display_cast(cast)
-                print("--"*50)
 
     except Exception as e:
         print(e)
 
 def main():
-    # Intitalization
-    st.session_state["display_data"] = False
-
+    
     # UI for inputs
     st.title("Movie Recommendation System")
     st.subheader("Find your next movie to bingewatch 😁")
 
+    # Loading req. data
     with st.spinner("Loading movies data ..."):
         df, similarity = load_data()
         df_movies = pd.read_csv(MOVIE_DATA_PATH)
         movie_list = sort_movie_list(df["title"].to_list())
 
+    # Inputs 
     ddn, slider = st.columns([4, 2])
     
     with ddn:
@@ -284,7 +279,7 @@ def main():
             max_value = 15,
             value = 10
         )
-
+    # Generating outputs
     if st.button("Generate Recommendations"):
         try:
             recommendations = make_recommendation(
@@ -299,15 +294,19 @@ def main():
             
             with st.spinner("Loading Recommendations ..."):
                 display_data = get_display_data(df_movies)
-                st.session_state["display_data"] = True
-
-            if st.session_state["display_data"]:
-                display_recommendations(display_data)
+                st.session_state["display_data"] = display_data
 
         except Exception as e:
             st.error(e)
 
+    if st.session_state["display_data"] is not None:
+        display_recommendations(st.session_state["display_data"])
 
 
 if __name__ == "__main__":
+    # Initialize
+    # st.session_state["display_data"] = None
+    if "display_data" not in st.session_state:
+        st.session_state.display_data = None
+
     main()
