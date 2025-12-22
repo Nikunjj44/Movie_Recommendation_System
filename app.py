@@ -139,6 +139,84 @@ def get_display_data(df):
         "movie_name" : movies
     }
 
+def display_cast(cast_data):
+
+    st.markdown("""
+        <style>
+        /* Your existing CSS... */
+        
+        /* Scrollable cast container */
+        .cast-scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 1rem;
+            scroll-behavior: smooth;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+        
+        .cast-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .cast-scroll-container::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        
+        .cast-card {
+            min-width: 120px;
+            text-align: center;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .cast-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .cast-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+        
+        .cast-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: white;
+        }
+        
+        .cast-character {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.7);
+            font-style: italic;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    cast_html = '<div class="cast-scroll-container">'
+
+    for i in range(cast_data["total_cast_members"]):
+        name = cast_data["actors"][i]
+        character = cast_data["characters"][i]
+        img_url = cast_data["cast_img_links"][i]
+
+        print(name)
+        
+        if img_url == "NA":
+            img_url = "https://via.placeholder.com/100x100/667eea/ffffff?text=No+Image"
+
+        cast_html += f'<div class="cast-card"><img src="{img_url}" class="cast-image" alt="{name}"><div class="cast-name">{name}</div><div class="cast-character">{character}</div></div>'
+    
+    cast_html += '</div>'
+    st.markdown(cast_html, unsafe_allow_html=True)
+
 
 def display_recommendations(disp_data):
     try:
@@ -151,6 +229,7 @@ def display_recommendations(disp_data):
             overview = disp_data["overview"][i]
             genres = disp_data["genres"][i]
             movie_name = disp_data["movie_name"][i]
+            cast = disp_data["casts"][i]
 
             with poster:
                 st.image(img_url, width = 300)
@@ -167,7 +246,10 @@ def display_recommendations(disp_data):
 
                 st.markdown(pills_html, unsafe_allow_html=True)
 
-                # print(cast_data)
+                print(movie_name)
+                print("--"*50)
+                display_cast(cast)
+                print("--"*50)
 
     except Exception as e:
         print(e)
