@@ -210,6 +210,7 @@ def display_cast(cast_data):
         </style>
     """, unsafe_allow_html=True)
     
+    
     cast_html = '<div class="cast-scroll-container">'
 
     for i in range(len(cast_data["actors"])):
