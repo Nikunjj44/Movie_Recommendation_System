@@ -1,6 +1,7 @@
 import requests
-import pandas as pd
+import base64
 import json
+import streamlit as st
 from config import REQ_URL, CONFIG_KEY, IMAGE_URL, MOVIE_DATA_PATH, BASE_URL
 
 def get_poster_url(movie_title):
@@ -42,6 +43,14 @@ def get_genre_list(movie_title, df):
 
     return result
 
+
+def get_base64_image(image_path):
+    # converting image into base64 form
+    
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+@st.cache_data(show_spinner=False)
 def get_cast_data_w_img(movie_title):
     params = {
         "api_key": CONFIG_KEY,
@@ -69,20 +78,24 @@ def get_cast_data_w_img(movie_title):
                 char_name = []
                 cast_img = []
                 for i in range(n):
-                    if config_data[i]["name"]:
+                    # only keeping cast which have movie alias
+                    if config_data[i]["character"] and config_data[i]["name"]:
                         actor_name.append(config_data[i]["name"])
+                        char_name.append(config_data[i]["character"])
+
+                        if config_data[i]["profile_path"]:
+                            profile_path = config_data[i]["profile_path"]
+                            cast_img.append(f"{IMAGE_URL}{profile_path}")
+                        else:
+                            # if no profile pic found - assign default image based on gender
+                            if config_data[i]["gender"] == 2:
+                                PLACEHOLDER_IMAGE = get_base64_image("data/no_profile_man.png")
+                            else:
+                                PLACEHOLDER_IMAGE = get_base64_image("data/no_profile_female.png")
+                            cast_img.append(f"data:image/png;base64,{PLACEHOLDER_IMAGE}")
+
                     else:
                         pass
-
-                    if config_data[i]["character"]:
-                        char_name.append(config_data[i]["character"])
-                    else:
-                        char_name.append("")
-                    if config_data[i]["profile_path"]:
-                        profile_path = config_data[i]["profile_path"]
-                        cast_img.append(f"{IMAGE_URL}{profile_path}")
-                    else:
-                        cast_img.append("NA")
                 
                 cast_info = {
                     "actors" : actor_name,

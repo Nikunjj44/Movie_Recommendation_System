@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import pickle
 import warnings
-import base64
 from config import *
 from generate_viz import get_poster_url, get_movie_summary, get_genre_list, get_cast_data_w_img
 
@@ -139,15 +138,7 @@ def get_display_data(df):
         "casts" : cast_data,
         "movie_name" : movies
     }
-
-def get_base64_image(image_path):
-    """Convert local image to base64 string"""
-    try:
-        with open(image_path, "rb") as img_file:
-            return base64.b64encode(img_file.read()).decode()
-    except FileNotFoundError:
-        print(f"Warning: Image not found at {image_path}")
-        return None
+    
 
 def display_cast(cast_data):
 
@@ -216,12 +207,6 @@ def display_cast(cast_data):
         name = cast_data["actors"][i]
         character = cast_data["characters"][i]
         img_url = cast_data["cast_img_links"][i]
-        
-        if img_url == "NA":
-            # img_url = "https://via.placeholder.com/100x100/667eea/ffffff?text=No+Image"
-
-            PLACEHOLDER_IMAGE = get_base64_image("data/no_profile_man.png")
-            img_url = f"data:image/png;base64,{PLACEHOLDER_IMAGE}"
             
         cast_html += f'<div class="cast-card"><img src="{img_url}" class="cast-image" alt="{name}"><div class="cast-name">{name}</div><div class="cast-character">{character}</div></div>'
     
