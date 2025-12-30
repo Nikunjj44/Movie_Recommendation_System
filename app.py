@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import pickle
 import warnings
-from config import *
+# from config import *
 from generate_viz import get_poster_url, get_movie_summary, get_genre_list, get_cast_data_w_img
 
 warnings.filterwarnings("ignore")
@@ -256,7 +256,7 @@ def main():
     # Loading req. data
     with st.spinner("Loading movies data ..."):
         df, similarity = load_data()
-        df_movies = pd.read_csv(MOVIE_DATA_PATH)
+        df_movies = pd.read_csv(st.secrets["MOVIE_DATA_PATH"])
         movie_list = sort_movie_list(df["title"].to_list())
 
     # Inputs 

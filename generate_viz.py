@@ -2,24 +2,24 @@ import requests
 import base64
 import json
 import streamlit as st
-from config import REQ_URL, CONFIG_KEY, IMAGE_URL, MOVIE_DATA_PATH, BASE_URL
+# from config import REQ_URL, CONFIG_KEY, IMAGE_URL, MOVIE_DATA_PATH, BASE_URL
 
 def get_poster_url(movie_title):
 
     params = {
-        "api_key": CONFIG_KEY,
+        "api_key": st.secrets["CONFIG_KEY"],
         "query": movie_title,
         "language": "en-US"
     }
 
-    response = requests.get(REQ_URL, params=params, timeout=5)
+    response = requests.get(st.secrets["REQ_URL"], params=params, timeout=5)
 
     # progress only if successful api req
     if response.status_code == 200:
         data = response.json()
         if data["results"]:
             sub_url = data["results"][0]["poster_path"]
-            poster_url = IMAGE_URL + sub_url
+            poster_url = st.secrets["IMAGE_URL"] + sub_url
 
             return poster_url
     else:
@@ -53,21 +53,21 @@ def get_base64_image(image_path):
 @st.cache_data(show_spinner=False)
 def get_cast_data_w_img(movie_title):
     params = {
-        "api_key": CONFIG_KEY,
+        "api_key": st.secrets["CONFIG_KEY"],
         "query": movie_title,
         "language": "en-US"
     }
 
-    response = requests.get(REQ_URL, params=params, timeout=5)
+    response = requests.get(st.secrets["REQ_URL"], params=params, timeout=5)
 
     # progress only if successful api req
     if response.status_code == 200:
         data = response.json()
         if data["results"]:
             movie_id = data["results"][0]["id"]
-            url = f"{BASE_URL}/movie/{movie_id}/credits"
+            url = f"{st.secrets["BASE_URL"]}/movie/{movie_id}/credits"
 
-            params = {"api_key":CONFIG_KEY}
+            params = {"api_key":st.secrets["CONFIG_KEY"]}
             response = requests.get(url, params=params, timeout=5)
             if response.status_code == 200:
                 config_data = response.json()["cast"]
@@ -85,7 +85,7 @@ def get_cast_data_w_img(movie_title):
 
                         if config_data[i]["profile_path"]:
                             profile_path = config_data[i]["profile_path"]
-                            cast_img.append(f"{IMAGE_URL}{profile_path}")
+                            cast_img.append(f"{st.secrets["IMAGE_URL"]}{profile_path}")
                         else:
                             # if no profile pic found - assign default image based on gender
                             if config_data[i]["gender"] == 2:
