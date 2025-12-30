@@ -65,7 +65,7 @@ def get_cast_data_w_img(movie_title):
         data = response.json()
         if data["results"]:
             movie_id = data["results"][0]["id"]
-            url = f"{st.secrets["BASE_URL"]}/movie/{movie_id}/credits"
+            url = f"{st.secrets['BASE_URL']}/movie/{movie_id}/credits"
 
             params = {"api_key":st.secrets["CONFIG_KEY"]}
             response = requests.get(url, params=params, timeout=5)
@@ -85,7 +85,7 @@ def get_cast_data_w_img(movie_title):
 
                         if config_data[i]["profile_path"]:
                             profile_path = config_data[i]["profile_path"]
-                            cast_img.append(f"{st.secrets["IMAGE_URL"]}{profile_path}")
+                            cast_img.append(f"{st.secrets['IMAGE_URL']}{profile_path}")
                         else:
                             # if no profile pic found - assign default image based on gender
                             if config_data[i]["gender"] == 2:

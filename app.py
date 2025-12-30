@@ -1,5 +1,7 @@
 import streamlit as st
+import os
 import pandas as pd
+import gdown
 import pickle
 import warnings
 # from config import *
@@ -20,17 +22,24 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # functions to load req. data + perform req. pre-processing
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def load_data():
     try:
         with open("data/movies_data.pkl", "rb") as file:
             df = pickle.load(file)
+        
+        if not os.path.exists("similarity_matrix.pkl"):
+            file_id = st.secrets["GDRIVE_SIMILARITY"]
+            url = f"https://drive.google.com/uc?export=download&id={file_id}"
+            
+            gdown.download(url, "similarity_matrix.pkl", quiet=False)
 
-        with open("data/similarity_matrix.pkl", "rb") as file:
+        with open("similarity_matrix.pkl", "rb") as file:
             similarity = pickle.load(file)
 
         return df, similarity
     except Exception as e:
+        print(e)
         st.error("Unable to load required data files!!")
         st.stop()
 

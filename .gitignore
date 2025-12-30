@@ -3,3 +3,4 @@ data/similarity_matrix.pkl
 config.py
 test.ipynb
 __pycache__/
+.streamlit/secrets.toml
