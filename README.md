@@ -21,3 +21,4 @@ This project implements a movie recommendation system that analyzes movie metada
 ## Streamlit Application
 ### Landing Page
 
+<img width="972" height="281" alt="landing_page" src="https://github.com/user-attachments/assets/be517d9f-7fc4-4548-9dbc-d2f271848ef8" />
