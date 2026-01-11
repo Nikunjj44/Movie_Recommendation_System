@@ -39,6 +39,3 @@ This project implements a movie recommendation system that analyzes movie metada
 ### Application Link -- Try it out 😄
 https://movie-recommendation-system-nm.streamlit.app
 
-## License
-This project is licensed under the **MIT License**. 
-
