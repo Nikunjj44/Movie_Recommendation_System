@@ -22,3 +22,10 @@ This project implements a movie recommendation system that analyzes movie metada
 ### Landing Page
 
 <img width="972" height="281" alt="landing_page" src="https://github.com/user-attachments/assets/be517d9f-7fc4-4548-9dbc-d2f271848ef8" />
+
+### Generated Recommendations 
+
+<img width="780" height="880" alt="sample_recs" src="https://github.com/user-attachments/assets/df60b126-967e-4120-bae1-1de29f065d8a" />
+
+### Apllication Link -- Try it out 😄
+https://movie-recommendation-system-nm.streamlit.app
