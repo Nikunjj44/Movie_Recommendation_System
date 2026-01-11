@@ -19,13 +19,13 @@ This project implements a movie recommendation system that analyzes movie metada
 5. Building Streamlit App
 
 ## Streamlit Application
-### Landing Page
+#### Landing Page
 
 <img width="972" height="281" alt="landing_page" src="https://github.com/user-attachments/assets/be517d9f-7fc4-4548-9dbc-d2f271848ef8" />
 
-### Generated Recommendations 
+#### Some Generated Recommendations (a total of 10 recommendations will be dispayed as per the slider)
 
 <img width="780" height="880" alt="sample_recs" src="https://github.com/user-attachments/assets/df60b126-967e-4120-bae1-1de29f065d8a" />
 
-### Apllication Link -- Try it out 😄
+#### Apllication Link -- Try it out 😄
 https://movie-recommendation-system-nm.streamlit.app
