@@ -1,6 +1,15 @@
 # Movie Recommendation System
 This project implements a movie recommendation system that analyzes movie metadata to provide personalized recommendations. Using content-based filtering techniques, the system suggests movies that are similar to a given movie based on various features such as genres, keywords, cast, crew, and plot summaries.
 
+## TechStack Used
+
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![NLP](https://img.shields.io/badge/NLP-4B8BBE?style=for-the-badge&logo=text&logoColor=white)
+
 ## Methodology
 1. Dataset Used -- TMDB 5000 Movies Dataset -- https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata
 2. Data pre-processing:  
@@ -19,13 +28,17 @@ This project implements a movie recommendation system that analyzes movie metada
 5. Building Streamlit App
 
 ## Streamlit Application
-#### Landing Page
+### Landing Page
 
 <img width="972" height="281" alt="landing_page" src="https://github.com/user-attachments/assets/be517d9f-7fc4-4548-9dbc-d2f271848ef8" />
 
-#### Some Generated Recommendations (a total of 10 recommendations will be dispayed as per the slider)
+### Some Generated Recommendations (a total of 10 recommendations will be dispayed as per the slider)
 
 <img width="780" height="880" alt="sample_recs" src="https://github.com/user-attachments/assets/df60b126-967e-4120-bae1-1de29f065d8a" />
 
-#### Apllication Link -- Try it out 😄
+### Application Link -- Try it out 😄
 https://movie-recommendation-system-nm.streamlit.app
+
+## License
+This project is licensed under the **MIT License**. 
+
