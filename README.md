@@ -23,7 +23,7 @@ This project implements a movie recommendation system that analyzes movie metada
           - **Term Frequency (TF):** Measures how often a word appears in a specific document.  
           - **Inverse Document Frequency (IDF):** Measures how rare the word is across all documents in the corpus. The rarer the word, the higher its score.  
      b) **Cosine Similarity** is used to get similarity scores which are calculated based on the angles of the above represented vectors.  
-4. Saving required files
+4. Saving required files  
    **Note: the above mentioned 4 steps are presented in file -- "Movie Rec.ipynb"**  
 5. Building Streamlit App
 
