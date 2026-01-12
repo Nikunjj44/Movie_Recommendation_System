@@ -4,11 +4,11 @@ This project implements a movie recommendation system that analyzes movie metada
 ## TechStack Used
 
 ![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![NLP](https://img.shields.io/badge/NLP-4B8BBE?style=for-the-badge&logo=text&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
 ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-![NLP](https://img.shields.io/badge/NLP-4B8BBE?style=for-the-badge&logo=text&logoColor=white)
 
 ## Methodology
 1. Dataset Used -- TMDB 5000 Movies Dataset -- https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata
