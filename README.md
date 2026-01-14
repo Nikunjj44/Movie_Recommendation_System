@@ -18,7 +18,7 @@ This project implements a movie recommendation system that analyzes movie metada
      c) Transforming -- genres, keywords, cast and crew columns -- such that each row gets a list of processed values. For eg: After processing genre column, each movie gets a list of genres associated with it in the genre column like ["Action", "SciFi"].  
      d) Genrating a single tags column from the above mentioned columns.  
      e) Applying Porter Stemmer - to reduce similar words and provide consistency.  
-3. Creating recommendation system using **TV-IVF Vectorizer and Cosine Similarity**  
+3. Creating recommendation system using **TF-IDF Vectorizer and Cosine Similarity**  
      a) The vectorizer consists of two components and TF-IDF is a product of these two components:  
           - **Term Frequency (TF):** Measures how often a word appears in a specific document.  
           - **Inverse Document Frequency (IDF):** Measures how rare the word is across all documents in the corpus. The rarer the word, the higher its score.
