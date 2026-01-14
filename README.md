@@ -19,9 +19,9 @@ This project implements a movie recommendation system that analyzes movie metada
      d) Genrating a single tags column from the above mentioned columns.  
      e) Applying Porter Stemmer - to reduce similar words and provide consistency.  
 3. Creating recommendation system using **TV-IVF Vectorizer and Cosine Similarity**  
-     a) The vectorizer consists of two components:  
+     a) The vectorizer consists of two components and TF-IDF is a product of these two components:  
           - **Term Frequency (TF):** Measures how often a word appears in a specific document.  
-          - **Inverse Document Frequency (IDF):** Measures how rare the word is across all documents in the corpus. The rarer the word, the higher its score.
+          - **Inverse Document Frequency (IDF):** Measures how rare the word is across all documents in the corpus. The rarer the word, the higher its score.  
         Therefore, TF-IDF is a product of the above two components.  
      b) **Cosine Similarity** is used to get similarity scores which are calculated based on the angles of the above represented vectors.  
 5. Saving required files  
