@@ -41,7 +41,7 @@ https://movie-recommendation-system-nm.streamlit.app
 
 ## Future Scope
 
-Currenly the application is based on the TMDB 5000 dataset thus having a limited number of movies. This can further be improved by either using a larger dataset or incorporating an API to get data. The API method would be more relevant as it would also include recently released movies thereby keeping the application upto date. Another improvement that can be made is in the way recommendation is made. Currently, we use TF-IDF which treats all terms equally. So we can incorporate a special weighted mechanism that would give a set of terms more weight than others. These terms with higher weight than others would include cast, directors and genres.  
+Currenly the application is based on the TMDB 5000 dataset thus having a limited number of movies. This can further be improved by either using a larger dataset or incorporating an API to get data. The API method would be more relevant as it would also include recently released movies thereby keeping the application up-to-date. Another improvement that can be made is in the way recommendation is made. Currently, we use TF-IDF which treats all terms equally. So we can incorporate a special weighted mechanism that would give a set of terms more weight than others. These terms with higher weight than others would include cast, directors, and genres.  
 
 Furthermore, we can have some additional enhancements while displaying the final recommendations like:  
 1. Including list of directors in a similar way the cast is presented.
