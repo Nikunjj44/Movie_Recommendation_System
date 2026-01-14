@@ -21,8 +21,7 @@ This project implements a movie recommendation system that analyzes movie metada
 3. Creating recommendation system using **TV-IVF Vectorizer and Cosine Similarity**  
      a) The vectorizer consists of two components and TF-IDF is a product of these two components:  
           - **Term Frequency (TF):** Measures how often a word appears in a specific document.  
-          - **Inverse Document Frequency (IDF):** Measures how rare the word is across all documents in the corpus. The rarer the word, the higher its score.  
-        Therefore, TF-IDF is a product of the above two components.  
+          - **Inverse Document Frequency (IDF):** Measures how rare the word is across all documents in the corpus. The rarer the word, the higher its score.
      b) **Cosine Similarity** is used to get similarity scores which are calculated based on the angles of the above represented vectors.  
 5. Saving required files  
    **Note: the above mentioned 4 steps are presented in file -- "Movie Rec.ipynb"**  
